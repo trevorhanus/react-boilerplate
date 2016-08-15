@@ -1,0 +1,16 @@
++ src
+  - ui -> where all the react code is stored
+    - components -> individual components that are not view specific. eg: item, logo, user-info
+    - containers -> react components that handle gathering data for a view
+    - layouts ->
+    - pages ->
+    - stylesheets -> css code
+  - dispatcher -> dispatches all actions. any change to state must go through the dispatcher
+    - index.js -> holds all action names and maps them to their reducers
+  - reducers -> the api for the app. are functions that change the state. could make external calls or simply toggle a boolean
+    - index.js
+    - getDevices.js
+    - startPullForDevices.js
+    - openMenu.js
+  - state -> one object that holds the state for the entire app
+    - index.js
