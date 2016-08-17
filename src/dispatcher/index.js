@@ -1,16 +1,21 @@
-import * as reducers from '../reducers/index.js';
+import mobx from 'mobx';
+import state from '../state';
+import updateQuery from '../reducers/updateQuery.js';
+import startPullingForDevice from '../reducers/startPullingForDevice.js';
+import handleLoginFormSubmit from '../reducers/handleLoginFormSubmit.js';
 
 const actions = {
-  'get_stuff': reducers.getStuff,
-  'open_menu': reducers.openMenu
+  'UPDATE_QUERY': updateQuery,
+  'START_PULLING_FOR_DEVICE': startPullingForDevice,
+  'HANDLE_LOGIN_FORM_SUBMIT': handleLoginFormSubmit
 };
 
-export default class dispatcher {
-  constructor() {
-    this.actions = actions;
-  }
+export default function dispatch(payload) {
+  const {action} = payload;
 
-  do(action, params) {
-    this.actions[action](params);
-  }
+  // Could save the previous state here for undo
+  console.log('state before: ', mobx.toJS(state));
+  // Could log every action here
+  console.log('dispatching action: ', payload);
+  actions[action](payload);
 }

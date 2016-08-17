@@ -2,26 +2,16 @@ import React from 'react';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 
 // route components
-// import AppContainer from '../../ui/containers/AppContainer.jsx';
-// import AdminContainer from '../../ui/containers/AdminContainer.jsx';
-import PublicContainer from './ui/containers/PublicContainer.jsx';
-// import DevicesContainer from '../../ui/containers/DevicesContainer.jsx';
-// import LinesContainer from '../../ui/containers/LinesContainer.jsx';
-// import LineContainer from '../../ui/containers/LineContainer.jsx';
-// import DeviceContainer from '../../ui/containers/DeviceContainer.jsx';
-// import VirtualTapContainer from '../../ui/containers/VirtualTapContainer.jsx';
-// import AdminDevicesContainer from '../../ui/containers/AdminDevicesContainer.jsx';
-// import AuthPageHome from '../../ui/pages/AuthPageHome.jsx';
-// import AuthPageSignIn from '../../ui/pages/AuthPageSignIn.jsx';
-// import AuthPageJoin from '../../ui/pages/AuthPageJoin.jsx';
-// import NotFoundPage from '../../ui/pages/NotFoundPage.jsx';
-// import ProtectedPage from '../../ui/pages/ProtectedPage.jsx';
-// import LinePage from '../../ui/pages/LinePage.jsx';
+import UnauthedAppContainer from './ui/containers/UnauthedAppContainer.jsx';
+import HomePage from './ui/pages/HomePage.jsx';
+import LoginPage from './ui/pages/LoginPage.jsx';
 
 export const renderRoutes = () => {
   return (
     <Router history={browserHistory}>
-      <Route path="/" component={PublicContainer}>
+      <Route path="/" component={UnauthedAppContainer}>
+        <IndexRoute component={HomePage}/>
+        <Route path="login" component={LoginPage}/>
       </Route>
     </Router>
   );

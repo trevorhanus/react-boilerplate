@@ -7,8 +7,12 @@ export default class PublicContainer extends React.Component {
   }
 
   render() {
+    const {children} = this.props;
+
     return (
-      <Public />
+      <div className="container">
+        {children}
+      </div>
     );
   }
 }
