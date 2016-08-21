@@ -10,6 +10,7 @@ textarea {
   .type-regular;
   padding: .75rem 0; //total height ~48
   line-height: 1.5rem !important;
+  min-width: 100%;
 
   // Style
   ::placeholder {
@@ -23,6 +24,10 @@ textarea {
   outline: none;
 
   &[disabled] { opacity: .5; }
+
+  &.center {
+    text-align: center;
+  }
 }
 
 // Remove chrome/saf autofill yellow background

@@ -3,11 +3,13 @@ import state from '../state';
 import updateQuery from '../reducers/updateQuery.js';
 import startPullingForDevice from '../reducers/startPullingForDevice.js';
 import handleLoginFormSubmit from '../reducers/handleLoginFormSubmit.js';
+import handleSignupFormSubmit from '../reducers/handleSignupFormSubmit.js';
 
 const actions = {
   'UPDATE_QUERY': updateQuery,
   'START_PULLING_FOR_DEVICE': startPullingForDevice,
-  'HANDLE_LOGIN_FORM_SUBMIT': handleLoginFormSubmit
+  'HANDLE_LOGIN_FORM_SUBMIT': handleLoginFormSubmit,
+  'HANDLE_SIGNUP_FORM_SUBMIT': handleSignupFormSubmit
 };
 
 export default function dispatch(payload) {

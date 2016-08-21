@@ -3,15 +3,21 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 
 // route components
 import UnauthedAppContainer from './ui/containers/UnauthedAppContainer.jsx';
+import OAuth2CallbackHandler from './ui/containers/OAuth2CallbackHandler.jsx';
 import HomePage from './ui/pages/HomePage.jsx';
 import LoginPage from './ui/pages/LoginPage.jsx';
+import SignupPage from './ui/pages/SignupPage.jsx';
+import ConfirmAuthPage from './ui/pages/ConfirmAuthPage.jsx';
 
 export const renderRoutes = () => {
   return (
     <Router history={browserHistory}>
       <Route path="/" component={UnauthedAppContainer}>
         <IndexRoute component={HomePage}/>
+        <Route path="oauth2callback" component={OAuth2CallbackHandler}/>
+        <Route path="signup" component={SignupPage}/>
         <Route path="login" component={LoginPage}/>
+        <Route path="confirm" component={ConfirmAuthPage}/>
       </Route>
     </Router>
   );

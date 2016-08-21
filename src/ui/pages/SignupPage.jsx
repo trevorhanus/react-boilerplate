@@ -13,7 +13,6 @@ export default class LoginPage extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-/*
   componentDidMount() {
     AWSCognito.config.region = 'us-west-2';
 
@@ -24,12 +23,11 @@ export default class LoginPage extends React.Component {
     var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
     console.log(userPool.getCurrentUser());
   }
-  */
 
   onSubmit(event) {
     event.preventDefault();
     dispatch({
-      action: 'HANDLE_LOGIN_FORM_SUBMIT',
+      action: 'HANDLE_SIGNUP_FORM_SUBMIT',
       email: this.refs.email.value,
       password: this.refs.password.value,
       router: this.context.router
@@ -49,8 +47,8 @@ export default class LoginPage extends React.Component {
     const content = (
       <div>
         <div className="wrapper-auth">
-          <h1 className="title-auth">Log In.</h1>
-          <p className="subtitle-auth" >Welcome back!</p>
+          <h1 className="title-auth">Sign Up.</h1>
+          <p className="subtitle-auth" >Signing up allows you to manage your lines</p>
           <form onSubmit={this.onSubmit}>
             <div className="list-errors">
               {errorMessages.map(msg => (
@@ -69,7 +67,7 @@ export default class LoginPage extends React.Component {
           </form>
         </div>
 
-        <Link to="/signup" className="link-auth-alt">Need an account? Sign up.</Link>
+        <Link to="/login" className="link-auth-alt">Have an account? Log in.</Link>
       </div>
     );
 

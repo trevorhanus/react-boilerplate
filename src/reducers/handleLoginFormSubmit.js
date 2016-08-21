@@ -1,8 +1,6 @@
 import { transaction } from 'mobx';
-import AWS from '../aws-sdk/aws-sdk-2.5.1.js';
 import awsConfig from '../aws.config.js';
 import state from '../state';
-
 
 export default function handleLoginFormSubmit(payload) {
   const {email, password, router} = payload;
@@ -35,52 +33,59 @@ export default function handleLoginFormSubmit(payload) {
 
   if (!isError) {
     // Login with AWS Cognito
-    loginWithEmailAndPassword(email, password, (err) => {
-      if (err) {
-        state.authErrors.push({
-          type: 'none',
-          message: err.reason
-        });
-      } else {
-        console.log('successful!');
-        // router.push('/app/lines');
-      }
-    });
+    loginWithEmailAndPassword(email, password)
+      .then(res => {
+        console.log('RESPONSE FROM LOGIN');
+        console.log(res);
+        console.log('access token + ' + res.getAccessToken().getJwtToken());
+      })
+      .catch(err => {
+        handleLoginError(err, router);
+      });
   }
 }
 
-function loginWithEmailAndPassword(email, password, cb) {
+function loginWithEmailAndPassword(email, password) {
+  AWSCognito.config.region = 'us-west-2';
 
-  const cognitoidentity = new AWS.CognitoIdentity({
-    apiVersion: awsConfig.cognitoApiVersion,
-    region: awsConfig.region
-  });
+  const authenticationData = {
+    Username: email,
+    Password: password
+  };
+  const authenticationDetails = new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
 
   const poolData = {
-    UserPoolId : awsConfig.cognitoUserPoolId,
-    ClientId : awsConfig.cognitoClientId
+    UserPoolId : 'us-west-2_DcemIgPzV',
+    ClientId : '7ipmasjb1iiorqfn9f8ojltm82'
+  };
+  const userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+
+  const userData = {
+      Username : email,
+      Pool : userPool
   };
 
-  const userPool = new AWS.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
-
-  var attributeList = [];
-
-  const dataEmail = {
-      Name : 'email',
-      Value : email
-  };
-
-  var attributeEmail = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataEmail);
-
-  attributeList.push(attributeEmail);
-
-  userPool.signUp(email, password, attributeList, null, function(err, result){
-    if (err) {
-      console.log('error: ', err);
-      cb(err);
-    } else {
-      state.cognitoUser = result.user;
-      console.log('user name is ' + cognitoUser.getUsername());
-    }
+  const cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
+  return new Promise((resolve, reject) => {
+    cognitoUser.authenticateUser(authenticationDetails, {
+      onSuccess: result => {
+        resolve(result);
+      },
+      onFailure: err => {
+        reject(err);
+      }
+    });
   });
+}
+
+function handleLoginError(err, router) {
+  if (err.message === 'User is not confirmed.') {
+    console.log('need to send you to the confirmation page.');
+    router.push('/confirm?login=true');
+  } else {
+    state.authErrors.push({
+      type: 'none',
+      message: err.message
+    });
+  }
 }
